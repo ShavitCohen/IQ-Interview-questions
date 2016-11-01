@@ -1,9 +1,9 @@
 import webpack from 'webpack';
 import path from 'path';
-
+const { devtools } = process.env;
 export default {
   debug: true,
-  devtool: 'cheap-module-eval-source-map',
+  devtool:  devtools || 'cheap-module-eval-source-map',
   noInfo: false,
   entry: [
     'eventsource-polyfill', // necessary for hot reloading with IE
