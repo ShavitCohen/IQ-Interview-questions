@@ -6,17 +6,21 @@ import open from 'open';
 
 /* eslint-disable no-console */
 
+
 const port = 3000;
 const app = express();
 const compiler = webpack(config);
+const { hot } = process.env;
+const hotMiddlewareEnabled = !hot || hot != 0;
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
 }));
 
-app.use(require('webpack-hot-middleware')(compiler));
-
+if (hotMiddlewareEnabled) {
+  app.use(require('webpack-hot-middleware')(compiler));
+}
 app.get('*', function(req, res) {
   res.sendFile(path.join( __dirname, '../src/index.html'));
 });
